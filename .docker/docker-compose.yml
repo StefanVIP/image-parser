@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+    php:
+        build:
+            context: ./php
+            args:
+                TIMEZONE: ${TIMEZONE}
+        volumes:
+            - ../:/var/www/symfony:cached
+            - ../var:/var/www/symfony/var
+            - ../vendor:/var/www/symfony/vendor
+        networks:
+            - symfony_app
+    nginx:
+        build:
+            context: ./nginx
+        volumes:
+            - ../:/var/www/symfony:cached
+            - ../var:/var/www/symfony/var
+            - ../vendor:/var/www/symfony/vendor
+        ports:
+            - 80:80
+        networks:
+            - symfony_app
+        env_file:
+            - .env.nginx.local
+
+networks:
+    symfony_app:
