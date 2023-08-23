@@ -6,12 +6,13 @@ use App\Entity\ImageParser;
 use App\Form\ImageParserType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class UrlParserController extends AbstractController
 {
     #[Route('/', name: 'app_url_parser')]
-    public function index(Request $request): \Symfony\Component\HttpFoundation\Response
+    public function index(Request $request): Response
     {
         $imageParser = new ImageParser();
 
