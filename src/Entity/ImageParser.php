@@ -17,7 +17,7 @@ class ImageParser
 
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotBlank]
-    #[Assert\Url]
+    #[Assert\Url(message: 'The url {{ value }} is not a valid url', protocols: ['http', 'https'])]
     private ?string $url = null;
 
     public function getId(): ?int
