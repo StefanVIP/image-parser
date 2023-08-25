@@ -16,8 +16,12 @@
     {% endblock %}
 
     {% block body %}
+        <p>Parsed URL: {{ url }}</p>
         <p>Images found: {{ imageCount }}</p>
         <p>Size of all images: {{ imagesSize }} mb.</p>
+        <a href="/">
+            <button type="button" >Try another URL</button>
+        </a>
         <div>
             <table class="parsed_pictures">
                 {% for image in images %}

@@ -22,7 +22,7 @@ class UrlParserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $url = $imageParser->getUrl() ?? null;
+            $url = $imageParser->getUrl();
 
             if (!checkdnsrr(parse_url($url)['host'])) {
                 return $this->render('url_parser/index.html.twig', [
@@ -31,9 +31,8 @@ class UrlParserController extends AbstractController
                 ]);
 
             } else {
-
                 return $this->redirectToRoute('result_page', [
-                    'url' => $url
+                    'url' => $url,
                 ]);
             }
 
@@ -43,6 +42,5 @@ class UrlParserController extends AbstractController
             'form' => $form,
             'error' => null
         ]);
-
     }
 }
