@@ -3,35 +3,31 @@
 namespace App\Tests\Service;
 
 use App\Service\ResultConstructor;
-use PHPUnit\Framework\TestCase;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class ResultConstructorTest extends TestCase
+class ResultConstructorTest extends WebTestCase
 {
-    public function testImageParser(): void
+    public function testConstruct(): void
     {
-        $resultConstructor = new ResultConstructor();
-        $images = $resultConstructor->imageParser('https://en.wikipedia.org/wiki/SOLID');
+
+        $resultConstructor = static::getContainer()->get(ResultConstructor::class);
+        $images = $resultConstructor->construct('http://localhost/testPage');
 
         $this->assertIsArray($images);
-        $this->assertArrayHasKey('https://en.wikipedia.org//static/images/icons/wikipedia.png', array_flip($images));
+        $this->assertArrayHasKey('images', $images);
     }
 
     public function testAllImagesSize(): void
     {
-        $resultConstructor = new ResultConstructor();
-        $images = $resultConstructor->imageParser('https://en.wikipedia.org/wiki/SOLID');
-        $allImagesSize = $resultConstructor->allImagesSize($images);
+        $resultConstructor = static::getContainer()->get(ResultConstructor::class);
+        $imagesSize = $resultConstructor->construct('http://localhost/testPage');
 
-        $this->assertSame(0.03, $allImagesSize);
+
+        $this->assertSame(1.14, $imagesSize['imagesSize']);
     }
 
-    public function testAllImagesCount(): void
+    private static function resultConstructor(): ResultConstructor
     {
-        $resultConstructor = new ResultConstructor();
-        $images = $resultConstructor->imageParser('https://en.wikipedia.org/wiki/SOLID');
-        $allImagesCount = $resultConstructor->allImagesCount($images);
-
-        $this->assertSame(6, $allImagesCount);
+        return static::getContainer()->get(ResultConstructor::class);
     }
-
 }

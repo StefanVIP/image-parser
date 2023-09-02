@@ -11,10 +11,10 @@ class ImageParserFormTest extends WebTestCase
         $client = static::createClient();
         $crawler = $client->request(method: 'GET', uri: '/');
         $client->submitForm('image_parser[parse]', [
-            'image_parser[url]' => 'https://getcomposer.org/',
+            'image_parser[url]' => 'https://google.com/',
         ]);
 
-        $this->assertResponseRedirects('/result?url=https://getcomposer.org/');
+        $this->assertResponseRedirects('/result?url=https://google.com/');
     }
 
     public function testFormValidateFakeURL(): void
@@ -38,5 +38,4 @@ class ImageParserFormTest extends WebTestCase
 
         $this->assertSelectorTextContains('form', 'The url "parse image for me please" is not a valid url');
     }
-
 }
