@@ -10,23 +10,19 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ResultController extends AbstractController
 {
-    #[Route(path: '/result', name: 'result_page')]
-    public function list(): Response
+    private ResultConstructor $resultConstructor;
+
+    public function __construct(ResultConstructor $resultConstructor)
     {
-        $resultConstructor = new ResultConstructor();
+        $this->resultConstructor = $resultConstructor;
+    }
 
-        $request = Request::createFromGlobals();
+    #[Route(path: '/result', name: 'result_page')]
+    public function list(Request $request): Response
+    {
         $url = $request->query->get('url');
+        $result = $this->resultConstructor->construct($url);
 
-        $allImages = $resultConstructor->imageParser($url);
-        $allImagesSize = $resultConstructor->allImagesSize($allImages);
-        $allImagesCount = $resultConstructor->allImagesCount($allImages);
-
-        return $this->render('result/index.html.twig', [
-            'url' => $url,
-            'imageCount' => $allImagesCount,
-            'imagesSize' => $allImagesSize,
-            'images' => array_chunk($allImages, 4) ?? null,
-        ]);
+        return $this->render('result/index.html.twig', $result);
     }
 }

@@ -4,45 +4,23 @@ namespace App\Service;
 
 class ResultConstructor
 {
-    /**
-     * Parse images links, add scheme to links then it need to, remove empty values from array
-     * @param string $url
-     * @return array
-     */
-    public function imageParser(string $url): array
+    private UrlParser $parser;
+
+    public function __construct(UrlParser $parser)
     {
-        $parser = new UrlParser();
-        $images = $parser->parse($url);
-
-        $allImages = [];
-
-        foreach ($images as $image) {
-            if (!empty($image) && (!str_contains($image, 'data:image'))) {
-
-                if (str_starts_with($image, '//')) {
-                    $allImages[] = parse_url($url)["scheme"] . '://' . substr($image, 2);
-
-                } elseif (!str_contains($image, 'http')) {
-                    $allImages[] = parse_url($url)["scheme"] . '://' . parse_url($url)["host"] . '/' . $image;
-
-                } else {
-                    $allImages[] = $image;
-                }
-            }
-        }
-        return $allImages;
+        $this->parser = $parser;
     }
 
     /**
      * Count all images size in bytes, return size in mb
-     * @param array $allImages
+     * @param array $images
      * @return float
      */
-    public function allImagesSize(array $allImages): float
+    public function calculateSize(array $images): float
     {
         $imageSizeBytes = 0;
 
-        foreach ($allImages as $iSize) {
+        foreach ($images as $iSize) {
 
             $imageSize = get_headers($iSize, 1)["content-length"] ?? get_headers($iSize, 1)["Content-Length"];
 
@@ -59,12 +37,20 @@ class ResultConstructor
     }
 
     /**
-     * @param array $allImages
-     * @return int
+     * Make array with all needed result data
+     * @param string $url
+     * @return array
      */
-    public function allImagesCount(array $allImages): int
+    public function construct(string $url): array
     {
-        return count($allImages);
-    }
+        $images = $this->parser->parse($url);
+        $size = $this->calculateSize($images);
 
+        return [
+            'url' => $url,
+            'imageCount' => count($images),
+            'imagesSize' => $size,
+            'images' => array_chunk($images, 4),
+        ];
+    }
 }

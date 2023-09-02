@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\ImageParser;
+use App\Entity\Url;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -22,7 +22,7 @@ class ImageParserType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => ImageParser::class,
+            'data_class' => Url::class,
         ]);
     }
 }

@@ -1,6 +1,7 @@
 
 ###> symfony/framework-bundle ###
 /.idea
+/.DS_Store
 /.env.local
 /.env.local.php
 /.env.*.local
@@ -8,6 +9,7 @@
 /public/bundles/
 /var/
 /vendor/
+/tests/.DS_Store
 ###< symfony/framework-bundle ###
 
 ###> symfony/phpunit-bridge ###

@@ -2,23 +2,21 @@
 
 namespace App\Repository;
 
-use App\Entity\ImageParser;
+use App\Entity\Url;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<ImageParser>
- *
- * @method ImageParser|null find($id, $lockMode = null, $lockVersion = null)
- * @method ImageParser|null findOneBy(array $criteria, array $orderBy = null)
- * @method ImageParser[]    findAll()
- * @method ImageParser[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Url|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Url|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Url[]    findAll()
+ * @method Url[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class ImageParserRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, ImageParser::class);
+        parent::__construct($registry, Url::class);
     }
 
 }

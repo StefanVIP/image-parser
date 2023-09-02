@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\ImageParser;
 use App\Form\ImageParserType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,15 +13,13 @@ class UrlParserController extends AbstractController
     #[Route('/', name: 'app_url_parser')]
     public function index(Request $request): Response
     {
-        $imageParser = new ImageParser();
-
-        $form = $this->createForm(ImageParserType::class, $imageParser);
+        $form = $this->createForm(ImageParserType::class);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $url = $imageParser->getUrl();
+            $url = $form->getData()->getUrl();
 
             if (!checkdnsrr(parse_url($url)['host'])) {
                 return $this->render('url_parser/index.html.twig', [
