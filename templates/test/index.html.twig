@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+    {% block stylesheets %}
+        <style>
+            .parsed_pictures {
+                width: 100%;
+                border: 1px solid #ddd;
+            }
+
+            .parsed_pictures td {
+                max-width: 200px;
+                text-align: center;
+                border: 1px solid #ddd;
+                padding: 7px 10px;
+            }
+        </style>
+    {% endblock %}
+
+    {% block body %}
+        <h1>Testing page</h1>
+        <p>Images for testing</p>
+        <div>
+            <table class="parsed_pictures">
+                {% for image in images %}
+                    <tr>
+                        {% for row in image %}
+                            <td><img width="190px" src="{{ row }}" alt="Parsed picture"></td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    {% endblock %}
